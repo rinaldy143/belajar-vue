@@ -98,14 +98,6 @@
         <li
           v-for="todo in todos.filteredTodos"
           :key="todo.id"
-          class="flex items-start sm:items-center justify-between py-2 border-b gap-2 text-sm sm:text-base"
-        >
-          <!-- isi todo tetap -->
-        </li>
-
-        <li
-          v-for="todo in todos.filteredTodos"
-          :key="todo.id"
           class="flex items-start sm:items-center justify-between py-2 border-b gap-2 text-sm sm:text-base text-black"
         >
           <!-- Di dalam v-for="todo in todos.filteredTodos" -->

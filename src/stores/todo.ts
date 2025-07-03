@@ -30,13 +30,17 @@ export const useTodoStore = defineStore('todo', () => {
       result = result.filter((t) => t.text.toLowerCase().includes(search.value.toLowerCase()))
     }
 
-    // 🔁 Urutkan berdasarkan dueDate (null di akhir)
     return result.sort((a, b) => {
       if (!a.dueDate) return 1
       if (!b.dueDate) return -1
       return a.dueDate.localeCompare(b.dueDate)
     })
   })
+
+  function reset() {
+    todos.value = []
+    filter.value = 'all'
+  }
 
   function addTodo(text: string, dueDate: string | null = null) {
     if (text.trim() === '') return
@@ -97,5 +101,6 @@ export const useTodoStore = defineStore('todo', () => {
     totalCount,
     doneCount,
     pendingCount,
+    reset,
   }
 })
