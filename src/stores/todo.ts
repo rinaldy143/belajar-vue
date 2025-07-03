@@ -1,11 +1,29 @@
 // src/store/todo.ts
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 type TodoItem = { id: number; text: string; done: boolean }
 
 export const useTodoStore = defineStore('todo', () => {
   const todos = ref<TodoItem[]>([])
+  const filter = ref<'all' | 'done' | 'pending'>('all')
+  const search = ref('')
+
+  const filteredTodos = computed(() => {
+    let result = todos.value
+
+    if (filter.value === 'done') {
+      result = result.filter((t) => t.done)
+    } else if (filter.value === 'pending') {
+      result = result.filter((t) => !t.done)
+    }
+
+    if (search.value.trim() !== '') {
+      result = result.filter((t) => t.text.toLowerCase().includes(search.value.toLowerCase()))
+    }
+
+    return result
+  })
 
   function addTodo(text: string) {
     if (text.trim() === '') return
@@ -38,5 +56,5 @@ export const useTodoStore = defineStore('todo', () => {
     { deep: true },
   )
 
-  return { todos, addTodo, toggleTodo, removeTodo }
+  return { todos, filter, search, filteredTodos, addTodo, toggleTodo, removeTodo }
 })
